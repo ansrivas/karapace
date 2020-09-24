@@ -233,7 +233,7 @@ class KafkaSchemaReader(Thread):
                 self.handle_msg(key, value)
                 self.offset = msg.offset
                 self.log.info("Handled message, current offset: %r", self.offset)
-                if self.ready:
+                if self.ready or key["keytype"] == "CONFIG":
                     self.queue.put(self.offset)
 
     def handle_msg(self, key: dict, value: dict):
